@@ -1,6 +1,5 @@
 {
   pkgs,
-  self,
   ...
 }: {
   # List packages installed in system profile. To search by name, run:
@@ -21,10 +20,10 @@
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
   system.defaults = {
-    # finder.AppleShowAllExtensions = true;
-    # finder._FXShowPosixPathInTitle = true;
+    finder.AppleShowAllExtensions = true;
+    finder._FXShowPosixPathInTitle = true;
     dock.autohide = true;
-    # NSGlobalDomain.AppleShowAllExtensions = true;
+    NSGlobalDomain.AppleShowAllExtensions = true;
     NSGlobalDomain.InitialKeyRepeat = 14;
     NSGlobalDomain.KeyRepeat = 1;
   };

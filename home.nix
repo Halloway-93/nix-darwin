@@ -17,14 +17,15 @@
     # pkgs.hello
     ripgrep
     lua
-    zellij
     fzf
     #nodejs
     # gitleaks
+    lua51Packages.luarocks
     lazygit
     obsidian
     alejandra
     neovim
+    virtualenv
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -77,16 +78,16 @@
       };
 
       plugins = [
-        {
-          name = "zsh-autocomplete";
-
-          src = pkgs.fetchFromGitHub {
-            owner = "marlonrichert";
-            repo = "zsh-autocomplete";
-            rev = "23.07.13";
-            sha256 = "sha256-0NW0TI//qFpUA2Hdx6NaYdQIIUpRSd0Y4NhwBbdssCs=";
-          };
-        }
+        # {
+        #   name = "zsh-autocomplete";
+        #
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "marlonrichert";
+        #     repo = "zsh-autocomplete";
+        #     rev = "23.07.13";
+        #     sha256 = "sha256-0NW0TI//qFpUA2Hdx6NaYdQIIUpRSd0Y4NhwBbdssCs=";
+        #   };
+        # }
 
         {
           name = "zsh-vi-mode";
@@ -99,20 +100,18 @@
           };
         }
 
-        {
-          name = "zsh-fzf-tab";
-          src = pkgs.fetchFromGitHub {
-            owner = "Aloxaf";
-            repo = "fzf-tab";
-            rev = "1.1.2";
-            hash = "sha256-Qv8zAiMtrr67CbLRrFjGaPzFZcOiMVEFLg1Z+N6VMhg=";
-          };
-        }
+        # {
+        #   name = "zsh-fzf-tab";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "Aloxaf";
+        #     repo = "fzf-tab";
+        #     rev = "1.1.2";
+        #     hash = "sha256-Qv8zAiMtrr67CbLRrFjGaPzFZcOiMVEFLg1Z+N6VMhg=";
+        #   };
+        # }
       ];
 
-      initExtra = ''
-			bindkey "''${key[Up]}" up-line-or-search
-			'';
+      # initExtra = ''bindkey "''${key[Up]}" up-line-or-search'';
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
     };
@@ -225,17 +224,32 @@
         };
       };
     };
+    zellij = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = {
+        theme = "catppuccin-mocha";
+
+        default_layout = "compact";
+        ui = {
+          pane_frames = {
+            rounded_corners = true;
+            hide_session_name = true;
+          };
+        };
+      };
+    };
     #starship settings:
     starship = {
       enable = true;
       settings = {
         username = {
-               style_user = "blue bold";
-               style_root = "red bold";
-               format = "[$user]($style) ";
-               disabled = false;
-               show_always = true;
-             };
+          style_user = "blue bold";
+          style_root = "red bold";
+          format = "[$user]($style) ";
+          disabled = false;
+          show_always = true;
+        };
         hostname = {
           ssh_only = false;
           ssh_symbol = "🌐 ";
@@ -251,7 +265,7 @@
       enable = true;
       userName = "Halloway-93";
       userEmail = "hamzaelhallaoui@gmail.com";
-      #ignore= [".DS_Store"];
+      ignores = [".DS_Store"];
     };
   };
 }
