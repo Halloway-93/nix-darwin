@@ -1,16 +1,17 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    vim
-    zsh
-    git
-		cargo
-		coreutils
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      vim
+      zsh
+      git
+      cargo
+      coreutils
+			# nodejs_20
+    ];
+    pathsToLink = ["/Applications" " ~/Applications/Home Manager Apps/"];
+  };
   system.keyboard = {
     enableKeyMapping = true;
     remapCapsLockToEscape = true;
@@ -18,7 +19,10 @@
   fonts.packages = [(pkgs.nerdfonts.override {fonts = ["IosevkaTerm"];})];
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  # nix.package = pkgs.nix;
+  nix = {
+    package = pkgs.nix;
+    settings.experimental-features = "nix-command flakes";
+  };
   system.defaults = {
     finder.AppleShowAllExtensions = true;
     finder._FXShowPosixPathInTitle = true;
@@ -28,7 +32,6 @@
     NSGlobalDomain.KeyRepeat = 1;
   };
   # Necessary for using flakes on this system.
-  nix.settings.experimental-features = "nix-command flakes";
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true; # default shell on catalina
