@@ -8,7 +8,6 @@
       git
       cargo
       coreutils
-			# nodejs_20
     ];
     pathsToLink = ["/Applications" " ~/Applications/Home Manager Apps/"];
   };
@@ -28,7 +27,7 @@
     finder._FXShowPosixPathInTitle = true;
     dock.autohide = true;
     NSGlobalDomain.AppleShowAllExtensions = true;
-    NSGlobalDomain.InitialKeyRepeat = 14;
+    NSGlobalDomain.InitialKeyRepeat = 10;
     NSGlobalDomain.KeyRepeat = 1;
   };
   # Necessary for using flakes on this system.
