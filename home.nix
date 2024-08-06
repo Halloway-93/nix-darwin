@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs,lib, ...}: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   # This value determines the Home Manager release that your configuration is
@@ -17,9 +17,6 @@
     # pkgs.hello
     ripgrep
     lua
-    fzf
-    sshpass
-    # gitleaks
     lua51Packages.luarocks
     lazygit
     obsidian
@@ -28,7 +25,9 @@
     virtualenv
     xquartz
     xorg.xhost
-		alacritty-theme
+    alacritty-theme
+    fd
+    zsh-fzf-tab
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -44,10 +43,14 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-		".config/alacritty/themes" = {
-    source = pkgs.alacritty-theme ;
-    recursive = true;
-  };
+    ".config/alacritty/themes" = {
+      source = pkgs.alacritty-theme;
+      recursive = true;
+    };
+    ".config/zsh/plugins" = {
+      source = pkgs.zsh-fzf-tab;
+      recursive = true;
+    };
   };
 
   # Home Manager can also manage your environment variables through
@@ -73,7 +76,7 @@
   # Let Home Manager install and manage itself.
   programs = {
     home-manager.enable = true;
-		# fzf.enable=true;
+    fzf.enable = true;
     # home-manager.path="$HOME/.config/sys-config/home-manager";
     zsh = {
       enable = true;
@@ -85,20 +88,34 @@
         hpc = "~/hpc.sh";
         py = "source ~/venvs/main/bin/activate";
         psy = "source ~/venvs/psychopy/bin/activate";
+        ls = "ls --color";
       };
 
+      initExtra = ''
+              export DISPLAY=:0
+              xhost +local:
+        source ~/.config/zsh/plugins/share/fzf-tab/fzf-tab.plugin.zsh'';
       plugins = [
-        {
-          name = "zsh-autocomplete";
+        # {
+        #   name = "zsh-autocomplete";
+        #
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "marlonrichert";
+        #     repo = "zsh-autocomplete";
+        #     rev = "23.07.13";
+        #     sha256 = "sha256-0NW0TI//qFpUA2Hdx6NaYdQIIUpRSd0Y4NhwBbdssCs=";
+        #   };
+        # }
 
+        {
+          name = "zsh-fzf-tab";
           src = pkgs.fetchFromGitHub {
-            owner = "marlonrichert";
-            repo = "zsh-autocomplete";
-            rev = "23.07.13";
-            sha256 = "sha256-0NW0TI//qFpUA2Hdx6NaYdQIIUpRSd0Y4NhwBbdssCs=";
+            owner = "Aloxaf";
+            repo = "fzf-tab";
+            rev = "1.1.2";
+            sha256 = "Qv8zAiMtrr67CbLRrFjGaPzFZcOiMVEFLg1Z+N6VMhg=";
           };
         }
-
         {
           name = "zsh-vi-mode";
 
@@ -109,22 +126,8 @@
             sha256 = "sha256-xbchXJTFWeABTwq6h4KWLh+EvydDrDzcY9AQVK65RS8=";
           };
         }
-
-        {
-          name = "zsh-fzf-tab";
-          src = pkgs.fetchFromGitHub {
-            owner = "Aloxaf";
-            repo = "fzf-tab";
-            rev = "1.1.2";
-            hash = "sha256-Qv8zAiMtrr67CbLRrFjGaPzFZcOiMVEFLg1Z+N6VMhg=";
-          };
-        }
       ];
-			 initExtra = ''
-      export DISPLAY=:0
-			xhost +local:
-    '';
-      # initExtra = ''bindkey "''${key[Up]}" up-line-or-search'';
+
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
     };
@@ -141,91 +144,10 @@
         font = {
           normal.family = "IosevkaTerm Nerd Font Mono";
           normal.style = "SemiBold";
-          size = 20;
+          size = 24;
         };
-				import=["~/.config/alacritty/themes/rose-pine.toml"];
-					        # colors = {
-        #   primary = {
-        #     background = "#1E1E2E"; # base
-        #     foreground = "#CDD6F4"; # text
-        #     dim_foreground = "#CDD6F4"; # text
-        #     bright_foreground = "#CDD6F4"; # text
-        #   };
-        #
-        #   cursor = {
-        #     text = "#1E1E2E"; # base
-        #     cursor = "#F5E0DC"; # rosewater
-        #   };
-        #
-        #   vi_mode_cursor = {
-        #     text = "#1E1E2E"; # base
-        #     cursor = "#B4BEFE"; # lavender
-        #   };
-        #
-        #   normal = {
-        #     black = "#45475A"; # surface1
-        #     red = "#F38BA8"; # red
-        #     green = "#A6E3A1"; # green
-        #     yellow = "#F9E2AF"; # yellow
-        #     blue = "#89B4FA"; # blue
-        #     magenta = "#F5C2E7"; # pink
-        #     cyan = "#94E2D5"; # teal
-        #     white = "#BAC2DE"; # subtext1
-        #   };
-        #
-        #   bright = {
-        #     black = "#585B70"; # surface2
-        #     red = "#F38BA8"; # red
-        #     green = "#A6E3A1"; # green
-        #     yellow = "#F9E2AF"; # yellow
-        #     blue = "#89B4FA"; # blue
-        #     magenta = "#F5C2E7"; # pink
-        #     cyan = "#94E2D5"; # teal
-        #     white = "#A6ADC8"; # subtext0
-        #   };
-        #
-        #   dim = {
-        #     black = "#45475A"; # surface1
-        #     red = "#F38BA8"; # red
-        #     green = "#A6E3A1"; # green
-        #     yellow = "#F9E2AF"; # yellow
-        #     blue = "#89B4FA"; # blue
-        #     magenta = "#F5C2E7"; # pink
-        #     cyan = "#94E2D5"; # teal
-        #     white = "#BAC2DE";
-        #   };
-        #
-        #   hints = {
-        #     start = {
-        #       foreground = "#1E1E2E"; # base
-        #       background = "#F9E2AF"; # yellow
-        #     };
-        #     end = {
-        #       foreground = "#1E1E2E"; # base
-        #       background = "#A6ADC8"; # subtext0
-        #     };
-        #   };
-        #
-        #   selection = {
-        #     text = "#1E1E2E"; # base
-        #     background = "#F5E0DC"; # rosewater
-        #   };
-        #
-        #   search = {
-        #     matches = {
-        #       foreground = "#1E1E2E"; # base
-        #       background = "#A6ADC8"; # subtext0
-        #     };
-        #     focused_match = {
-        #       foreground = "#1E1E2E"; # base
-        #       background = "#A6E3A1"; # green
-        #     };
-        #   };
-        #   footer_bar = {
-        #     foreground = "#1E1E2E"; # base
-        #     background = "#A6ADC8"; # subtext0
-        #   };
-        # };
+        import = ["~/.config/alacritty/themes/rose-pine.toml"];
+
         keyboard = {
           bindings = [
             {
