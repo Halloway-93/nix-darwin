@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment = {
@@ -7,21 +11,44 @@
       zsh
       git
       cargo
+			alacritty
+      neovim
       coreutils
+      mkalias
     ];
-    pathsToLink = ["/Applications" " ~/Applications/Home Manager Apps/"];
-  };
-  system.keyboard = {
-    enableKeyMapping = true;
-    remapCapsLockToEscape = true;
+    # pathsToLink = ["/Applications" " ~/Applications/Home Manager Apps/"];
   };
   fonts.packages = [(pkgs.nerdfonts.override {fonts = ["IosevkaTerm"];})];
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
+
   nix = {
     package = pkgs.nix;
     settings.experimental-features = "nix-command flakes";
   };
+
+  system.activationScripts.applications.text = let
+    env = pkgs.buildEnv {
+      name = "system-applications";
+      paths = config.environment.systemPackages;
+      pathsToLink = "/Applications";
+    };
+  in
+    pkgs.lib.mkForce ''
+      # Set up applications.
+      echo "setting up /Applications..." >&2
+      rm -rf /Applications/Nix\ Apps
+      mkdir -p /Applications/Nix\ Apps
+      find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+      while read src; do
+        app_name=$(basename "$src")
+        echo "copying $src" >&2
+        ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+      done
+    '';
+
   system.defaults = {
     finder.AppleShowAllExtensions = true;
     finder._FXShowPosixPathInTitle = true;
@@ -30,8 +57,12 @@
     NSGlobalDomain.InitialKeyRepeat = 10;
     NSGlobalDomain.KeyRepeat = 1;
   };
-  # Necessary for using flakes on this system.
 
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToEscape = true;
+  };
+  # Necessary for using flakes on this system.
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true; # default shell on catalina
 

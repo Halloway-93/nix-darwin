@@ -1,5 +1,5 @@
 {
-  description = "Example Darwin system flake";
+  description = "Darwin system flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -20,7 +20,6 @@
     darwinConfigurations."H" = nix-darwin.lib.darwinSystem {
       modules = [
         ./darwin.nix
-        {nixpkgs.config.allowUnfree = true;}
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -37,6 +36,6 @@
     };
 
     # Expose the package set, including overlays, for convenience.
-    # darwinPackages = self.darwinConfigurations."H".pkgs;
+    darwinPackages = self.darwinConfigurations."H".pkgs;
   };
 }

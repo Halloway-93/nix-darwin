@@ -1,4 +1,4 @@
-{pkgs,lib, ...}: {
+{pkgs, ...}: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   # This value determines the Home Manager release that your configuration is
@@ -19,15 +19,15 @@
     lua
     lua51Packages.luarocks
     lazygit
-    obsidian
     alejandra
-    neovim
     virtualenv
     xquartz
     xorg.xhost
     alacritty-theme
     fd
-    zsh-fzf-tab
+    # zsh-fzf-tab
+    tree-sitter
+    sshfs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -76,7 +76,7 @@
   # Let Home Manager install and manage itself.
   programs = {
     home-manager.enable = true;
-    fzf.enable = true;
+    fzf = {enable = true;};
     # home-manager.path="$HOME/.config/sys-config/home-manager";
     zsh = {
       enable = true;
@@ -137,16 +137,16 @@
       settings = {
         window = {
           decorations = "Buttonless";
-          opacity = 1;
-          blur = false;
+          opacity = 0.5;
+          blur = true;
           option_as_alt = "Both";
         };
         font = {
           normal.family = "IosevkaTerm Nerd Font Mono";
           normal.style = "SemiBold";
-          size = 24;
+          size = 16;
         };
-        import = ["~/.config/alacritty/themes/rose-pine.toml"];
+        import = ["~/.config/alacritty/themes/catppuccin_mocha.toml"];
 
         keyboard = {
           bindings = [
