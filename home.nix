@@ -25,9 +25,9 @@
     xorg.xhost
     alacritty-theme
     fd
-    # zsh-fzf-tab
     tree-sitter
-    sshfs
+    neofetch
+		sshfs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -144,7 +144,7 @@
         font = {
           normal.family = "IosevkaTerm Nerd Font Mono";
           normal.style = "SemiBold";
-          size = 16;
+          size = 20;
         };
         import = ["~/.config/alacritty/themes/catppuccin_mocha.toml"];
 
