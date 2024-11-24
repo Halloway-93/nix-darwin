@@ -11,12 +11,19 @@
       zsh
       git
       cargo
-			alacritty
+      alacritty
       neovim
       coreutils
       mkalias
     ];
     # pathsToLink = ["/Applications" " ~/Applications/Home Manager Apps/"];
+  };
+  homebrew = {
+    enable = true;
+    casks = ["firefox" "aerospace"];
+    onActivation.cleanup = "zap";
+    onActivation.upgrade = true;
+    onActivation.autoUpdate = true;
   };
   fonts.packages = [(pkgs.nerdfonts.override {fonts = ["IosevkaTerm"];})];
   # Auto upgrade nix package and the daemon service.
@@ -25,7 +32,7 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    package = pkgs.nix;
+    # package = pkgs.nix;
     settings.experimental-features = "nix-command flakes";
   };
 

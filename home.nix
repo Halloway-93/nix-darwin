@@ -27,7 +27,8 @@
     fd
     tree-sitter
     neofetch
-		sshfs
+    sshfs
+    nodejs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
