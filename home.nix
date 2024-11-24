@@ -21,8 +21,8 @@
     lazygit
     alejandra
     virtualenv
-    xquartz
-    xorg.xhost
+    # xquartz
+    # xorg.xhost
     alacritty-theme
     fd
     tree-sitter

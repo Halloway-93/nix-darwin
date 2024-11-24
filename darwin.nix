@@ -20,7 +20,7 @@
   };
   homebrew = {
     enable = true;
-    casks = ["firefox" "aerospace"];
+    casks = ["nikitabobko/tap/aerospace"];
     onActivation.cleanup = "zap";
     onActivation.upgrade = true;
     onActivation.autoUpdate = true;
@@ -32,7 +32,7 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    # package = pkgs.nix;
+    package = pkgs.nix;
     settings.experimental-features = "nix-command flakes";
   };
 
