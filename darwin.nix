@@ -20,12 +20,12 @@
   };
   homebrew = {
     enable = true;
-    casks = ["nikitabobko/tap/aerospace"];
+    casks = [];
     onActivation.cleanup = "zap";
     onActivation.upgrade = true;
     onActivation.autoUpdate = true;
   };
-  fonts.packages = [(pkgs.nerdfonts.override {fonts = ["IosevkaTerm"];})];
+  fonts.packages = [(pkgs.nerdfonts.override {fonts = ["IosevkaTerm" "JetBrainsMono"];})];
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
 
@@ -39,23 +39,35 @@
   system.activationScripts.applications.text = let
     env = pkgs.buildEnv {
       name = "system-applications";
-      paths = config.environment.systemPackages;
+      paths =
+        config.environment.systemPackages
+        ++ (with config.home-manager.users.mango.home; packages);
       pathsToLink = "/Applications";
     };
   in
     pkgs.lib.mkForce ''
-      # Set up applications.
-      echo "setting up /Applications..." >&2
+      # Set up Nix applications from both system and home-manager packages
+      echo "Setting up Nix Applications..." >&2
       rm -rf /Applications/Nix\ Apps
       mkdir -p /Applications/Nix\ Apps
-      find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-      while read src; do
-        app_name=$(basename "$src")
-        echo "copying $src" >&2
-        ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+
+      # Find and link Nix-installed applications
+      find ${env}/Applications -maxdepth 1 -type l | while read -r app; do
+        src=$(readlink "$app")
+        app_name=$(basename "$app")
+
+        echo "Processing app: $app" >&2
+        echo "  Symlink target: $src" >&2
+        echo "  App name: $app_name" >&2
+
+        if [[ -d "$src" ]]; then
+          echo "Linking Nix app: $app_name" >&2
+          ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+        else
+          echo "WARN: Not linking $app_name - target is not a directory" >&2
+        fi
       done
     '';
-
   system.defaults = {
     finder.AppleShowAllExtensions = true;
     finder._FXShowPosixPathInTitle = true;

@@ -23,12 +23,17 @@
     virtualenv
     # xquartz
     # xorg.xhost
+    obsidian
+    # portfolio
+    mattermost
     alacritty-theme
     fd
+    zotero
     tree-sitter
     neofetch
     sshfs
     nodejs
+    ffmpeg_7
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -87,27 +92,16 @@
         ll = "ls -l";
         envau = "~/envau.sh";
         hpc = "~/hpc.sh";
-        py = "source ~/venvs/main/bin/activate";
-        psy = "source ~/venvs/psychopy/bin/activate";
+        py = "source ~/.venv/main/bin/activate";
+        psy = "source ~/.venv/psychopy/bin/activate";
         ls = "ls --color";
       };
 
+      # export DISPLAY=:0 # Add back into extra if one wants to add xquartz and xorg
+      # xhost +local:
       initExtra = ''
-              export DISPLAY=:0
-              xhost +local:
         source ~/.config/zsh/plugins/share/fzf-tab/fzf-tab.plugin.zsh'';
       plugins = [
-        # {
-        #   name = "zsh-autocomplete";
-        #
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "marlonrichert";
-        #     repo = "zsh-autocomplete";
-        #     rev = "23.07.13";
-        #     sha256 = "sha256-0NW0TI//qFpUA2Hdx6NaYdQIIUpRSd0Y4NhwBbdssCs=";
-        #   };
-        # }
-
         {
           name = "zsh-fzf-tab";
           src = pkgs.fetchFromGitHub {
@@ -132,6 +126,23 @@
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
     };
+    # kitty settings
+    kitty = {
+      enable = true;
+      shellIntegration.enableZshIntegration = true;
+      font = {
+        # package = pkgs.nerdfonts;
+        name = "JetBrainsMono Nerd Font";
+        size = 16;
+      };
+      keybindings = {};
+      themeFile = "Catppuccin-Mocha";
+      settings = {
+        disable_ligatures = "never";
+        allow_remote_control = "yes";
+        listen_on = "unix:/tmp/mykitty";
+      };
+    };
     #alacritty settings:
     alacritty = {
       enable = true;
@@ -147,7 +158,7 @@
           normal.style = "SemiBold";
           size = 20;
         };
-        import = ["~/.config/alacritty/themes/catppuccin_mocha.toml"];
+        general.import = ["~/.config/alacritty/themes/catppuccin_mocha.toml"];
 
         keyboard = {
           bindings = [
@@ -160,21 +171,21 @@
         };
       };
     };
-    zellij = {
-      enable = true;
-      enableZshIntegration = true;
-      settings = {
-        theme = "catppuccin-mocha";
-
-        default_layout = "compact";
-        ui = {
-          pane_frames = {
-            rounded_corners = true;
-            hide_session_name = true;
-          };
-        };
-      };
-    };
+    # zellij = {
+    #   enable = true;
+    #   enableZshIntegration = true;
+    #   settings = {
+    #     theme = "catppuccin-mocha";
+    #
+    #     default_layout = "compact";
+    #     ui = {
+    #       pane_frames = {
+    #         rounded_corners = true;
+    #         hide_session_name = true;
+    #       };
+    #     };
+    #   };
+    # };
     #starship settings:
     starship = {
       enable = true;
