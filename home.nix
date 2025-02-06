@@ -12,9 +12,6 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
     ripgrep
     lua
     lua51Packages.luarocks
@@ -22,18 +19,18 @@
     alejandra
     virtualenv
     # xquartz
-    # xorg.xhost
     obsidian
     # portfolio
     mattermost
-    alacritty-theme
+    # alacritty-theme
     fd
     zotero
     tree-sitter
     neofetch
     sshfs
-    nodejs
+    # nodejs
     ffmpeg_7
+    swift
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -100,7 +97,10 @@
       # export DISPLAY=:0 # Add back into extra if one wants to add xquartz and xorg
       # xhost +local:
       initExtra = ''
-        source ~/.config/zsh/plugins/share/fzf-tab/fzf-tab.plugin.zsh'';
+        source ~/.config/zsh/plugins/share/fzf-tab/fzf-tab.plugin.zsh
+        export R_HOME=$(dirname $(dirname $(which R)))
+      '';
+
       plugins = [
         {
           name = "zsh-fzf-tab";
@@ -131,46 +131,49 @@
       enable = true;
       shellIntegration.enableZshIntegration = true;
       font = {
-        # package = pkgs.nerdfonts;
         name = "JetBrainsMono Nerd Font";
         size = 16;
       };
-      keybindings = {};
+      keybindings = {
+        "cmd+]" = "next_window";
+        "cmd+[" = "previous_window";
+      };
       themeFile = "Catppuccin-Mocha";
       settings = {
+        enabled_layouts = "horizontal,fat,grid,stack,tall,vertical,splits";
         disable_ligatures = "never";
         allow_remote_control = "yes";
         listen_on = "unix:/tmp/mykitty";
       };
     };
     #alacritty settings:
-    alacritty = {
-      enable = true;
-      settings = {
-        window = {
-          decorations = "Buttonless";
-          opacity = 0.5;
-          blur = true;
-          option_as_alt = "Both";
-        };
-        font = {
-          normal.family = "IosevkaTerm Nerd Font Mono";
-          normal.style = "SemiBold";
-          size = 20;
-        };
-        general.import = ["~/.config/alacritty/themes/catppuccin_mocha.toml"];
-
-        keyboard = {
-          bindings = [
-            {
-              key = "Enter";
-              mods = "Command";
-              action = "ToggleSimpleFullscreen";
-            }
-          ];
-        };
-      };
-    };
+    # alacritty = {
+    #   enable = true;
+    #   settings = {
+    #     window = {
+    #       decorations = "Buttonless";
+    #       opacity = 0.5;
+    #       blur = true;
+    #       option_as_alt = "Both";
+    #     };
+    #     font = {
+    #       normal.family = "IosevkaTerm Nerd Font Mono";
+    #       normal.style = "SemiBold";
+    #       size = 20;
+    #     };
+    #     general.import = ["~/.config/alacritty/themes/catppuccin_mocha.toml"];
+    #
+    #     keyboard = {
+    #       bindings = [
+    #         {
+    #           key = "Enter";
+    #           mods = "Command";
+    #           action = "ToggleSimpleFullscreen";
+    #         }
+    #       ];
+    #     };
+    #   };
+    # };
     # zellij = {
     #   enable = true;
     #   enableZshIntegration = true;

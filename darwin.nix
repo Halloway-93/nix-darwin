@@ -11,16 +11,19 @@
       zsh
       git
       cargo
-      alacritty
+      # alacritty
       neovim
       coreutils
       mkalias
+      nodejs
+    ];
+    systemPath = [
     ];
     # pathsToLink = ["/Applications" " ~/Applications/Home Manager Apps/"];
   };
   homebrew = {
     enable = true;
-    casks = [];
+    casks = ["ghostty"];
     onActivation.cleanup = "zap";
     onActivation.upgrade = true;
     onActivation.autoUpdate = true;
@@ -32,8 +35,13 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
+    optimise.automatic = true;
     package = pkgs.nix;
     settings.experimental-features = "nix-command flakes";
+    gc = {
+      automatic = true;
+      options = "--delete-older-than- 10d";
+    };
   };
 
   system.activationScripts.applications.text = let
@@ -73,9 +81,14 @@
     finder._FXShowPosixPathInTitle = true;
     dock.autohide = true;
     NSGlobalDomain.AppleShowAllExtensions = true;
-    NSGlobalDomain.InitialKeyRepeat = 10;
+    NSGlobalDomain.InitialKeyRepeat = 15;
     NSGlobalDomain.KeyRepeat = 1;
+    trackpad.Clicking = true; # This enables tap-to-click
   };
+  # system.autoUpgrade = {
+  #   enable = true;
+  #   dates = "weekly";
+  # };
 
   system.keyboard = {
     enableKeyMapping = true;
@@ -96,4 +109,6 @@
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "x86_64-darwin";
+
+  #Automatic cleanup
 }
