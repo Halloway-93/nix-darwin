@@ -31,6 +31,11 @@
     # nodejs
     ffmpeg_7
     swift
+    ollama
+    fabric-ai
+    # llama-cpp
+    go
+    aldente
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -46,10 +51,10 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-    ".config/alacritty/themes" = {
-      source = pkgs.alacritty-theme;
-      recursive = true;
-    };
+    # ".config/alacritty/themes" = {
+    #   source = pkgs.alacritty-theme;
+    #   recursive = true;
+    # };
     ".config/zsh/plugins" = {
       source = pkgs.zsh-fzf-tab;
       recursive = true;
