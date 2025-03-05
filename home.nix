@@ -31,11 +31,10 @@
     # nodejs
     ffmpeg_7
     swift
-    ollama
-    fabric-ai
+    # ollama
+    # fabric-ai
     # llama-cpp
     go
-    aldente
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -136,12 +135,14 @@
       enable = true;
       shellIntegration.enableZshIntegration = true;
       font = {
-        name = "JetBrainsMono Nerd Font";
+        # name = "JetBrainsMono Nerd Font";
+        name = "IosevkaTerm Nerd Font Mono Regular";
         size = 16;
       };
       keybindings = {
         "cmd+]" = "next_window";
         "cmd+[" = "previous_window";
+        "cmd+f" = "toggle_maximized";
       };
       themeFile = "Catppuccin-Mocha";
       settings = {
@@ -149,8 +150,19 @@
         disable_ligatures = "never";
         allow_remote_control = "yes";
         listen_on = "unix:/tmp/mykitty";
+        background_opacity = 0.5;
+        background_blur = 50;
       };
     };
+    # ghostty = {
+    #   enable = true;
+    #   enableZshIntegration = true;
+    #   settings = {
+    #     theme = "catppuccin_mocha";
+    #     fontsize = 14;
+    #   };
+    # };
+
     #alacritty settings:
     # alacritty = {
     #   enable = true;

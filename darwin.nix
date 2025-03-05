@@ -17,6 +17,7 @@
       mkalias
       nodejs
 			mactop
+			wget
     ];
     systemPath = [
     ];
