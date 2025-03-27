@@ -7,7 +7,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -19,9 +19,9 @@
     alejandra
     virtualenv
     # xquartz
-    obsidian
+    # obsidian
     # portfolio
-    mattermost
+    # mattermost
     # alacritty-theme
     fd
     zotero
@@ -35,7 +35,11 @@
     # fabric-ai
     # llama-cpp
     go
-		pandoc
+    R
+    pandoc
+    #pdf viewer
+    zathura
+    imagemagick
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -85,7 +89,6 @@
   programs = {
     home-manager.enable = true;
     fzf = {enable = true;};
-    # home-manager.path="$HOME/.config/sys-config/home-manager";
     zsh = {
       enable = true;
       shellAliases = {
@@ -102,8 +105,10 @@
       # export DISPLAY=:0 # Add back into extra if one wants to add xquartz and xorg
       # xhost +local:
       initExtra = ''
-        source ~/.config/zsh/plugins/share/fzf-tab/fzf-tab.plugin.zsh
-        export R_HOME=$(dirname $(dirname $(which R)))
+                source ~/.config/zsh/plugins/share/fzf-tab/fzf-tab.plugin.zsh
+            export PATH=$PATH:/Users/mango/.local/share/nvim/lazy/zotcite/python3
+        export PATH=$PATH:/usr/local/texlive/2025/bin/universal-darwin
+
       '';
 
       plugins = [
@@ -145,14 +150,16 @@
         "cmd+[" = "previous_window";
         "cmd+f" = "toggle_maximized";
       };
-      themeFile = "Catppuccin-Mocha";
+      # themeFile = "Catppuccin-Mocha";
+      themeFile = "BlackMetal";
       settings = {
         enabled_layouts = "horizontal,fat,grid,stack,tall,vertical,splits";
         disable_ligatures = "never";
+        macos_option_as_alt = "both";
         allow_remote_control = "yes";
         listen_on = "unix:/tmp/mykitty";
-        background_opacity = 0.5;
-        background_blur = 50;
+        # background_opacity = 0.5;
+        # background_blur = 50;
       };
     };
     # ghostty = {

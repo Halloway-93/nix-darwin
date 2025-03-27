@@ -16,8 +16,8 @@
       coreutils
       mkalias
       nodejs
-			mactop
-			wget
+      mactop
+      wget
     ];
     systemPath = [
     ];
@@ -25,14 +25,16 @@
   };
   homebrew = {
     enable = true;
-    casks = ["ghostty"];
+    casks = ["ghostty" "obsidian" "zen-browser"];
+    brews = ["pandoc-crossref"];
     onActivation.cleanup = "zap";
     onActivation.upgrade = true;
     onActivation.autoUpdate = true;
   };
-  fonts.packages = [(pkgs.nerdfonts.override {fonts = ["IosevkaTerm" "JetBrainsMono"];})];
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  fonts.packages = [
+    pkgs.nerd-fonts.iosevka-term
+    pkgs.nerd-fonts.jetbrains-mono
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -107,7 +109,7 @@
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
-  system.stateVersion = 4;
+  system.stateVersion = 5;
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
